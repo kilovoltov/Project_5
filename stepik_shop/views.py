@@ -3,7 +3,9 @@ from functools import wraps
 from flask import abort, flash, session, redirect, request, render_template
 
 from stepik_shop import app, db
-from stepik_shop.models import User
+from stepik_shop.models import User, Category, Order, Meal
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from stepik_shop.forms import *
 
 
@@ -64,3 +66,10 @@ def register():
 @app.route('/logout/')
 def logout():
     return render_template("login.html")
+
+
+# admin = Admin(app)
+# admin.add_view(ModelView(User, db.session))
+# admin.add_view(ModelView(Order, db.session))
+# admin.add_view(ModelView(Meal, db.session))
+# admin.add_view(ModelView(Category, db.session))
