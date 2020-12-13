@@ -1,3 +1,5 @@
+import csv
+import os
 from functools import wraps
 
 from flask import abort, flash, session, redirect, request, render_template
@@ -73,3 +75,29 @@ def logout():
 # admin.add_view(ModelView(Order, db.session))
 # admin.add_view(ModelView(Meal, db.session))
 # admin.add_view(ModelView(Category, db.session))
+
+@app.route('/fill-database/')
+def to_db():
+    """
+    Используется для первоначального импорта данных в таблицы БД
+    """
+    category_rows = []
+    with open('stepik_shop/data/delivery_categories.csv') as f:
+        reader = csv.DictReader(f)
+        for line in reader:
+            category_rows.append(Category(title=line['title']))
+    db.session.add_all(category_rows)
+    db.session.commit()
+
+    meals = []
+    with open('stepik_shop/data/delivery_items.csv') as f:
+        reader = csv.DictReader(f)
+        for line in reader:
+            meals.append(Meal(title=line['title'],
+                              price=int(line['price']),
+                              description=line['description'],
+                              picture=line['picture'],
+                              category_id=int(line['category_id'])))
+    db.session.add_all(meals)
+    db.session.commit()
+    return "Данные записаны в БД"

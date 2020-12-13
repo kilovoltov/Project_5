@@ -35,7 +35,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
-    sum = db.Column(db.Float, nullable=False)
+    sum = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)
     phone = db.Column(db.String(30), nullable=False)
@@ -49,7 +49,7 @@ class Meal(db.Model):
     __tablename__ = 'meals'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(250), unique=True, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text)
     picture = db.Column(db.String(500), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
